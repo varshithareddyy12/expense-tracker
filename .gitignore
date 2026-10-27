@@ -1,0 +1,18 @@
+# Node & Frontend
+frontend/node_modules/
+frontend/dist/
+*.local
+
+# Java & Backend
+backend/target/
+backend/data/
+*.log
+*.mv.db
+*.trace.db
+
+# IDE & OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
