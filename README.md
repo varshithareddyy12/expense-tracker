@@ -129,48 +129,87 @@ Vite is preconfigured to proxy all `/api` calls to `http://localhost:8080`.
 
 ---
 
-## 🌐 Deployment Instructions
+## 🌐 Complete Deployment Guide (Aiven DB + Render + Vercel)
 
-### 1. Deploy Frontend on Vercel
-1. Push your repository to **GitHub** / **GitLab** / **Bitbucket**.
-2. Log in to [Vercel](https://vercel.com) and click **"Add New Project"**.
-3. Select your repository.
-4. Set the following project settings:
-   - **Root Directory**: `frontend`
-   - **Framework Preset**: `Vite`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-5. In **Environment Variables**, add:
-   ```env
-   VITE_API_BASE_URL=https://<your-render-backend-url>/api
-   ```
-6. Click **Deploy**. Vercel will build the frontend and serve it with clean SPA URL rewrites via `vercel.json`.
+Follow this 3-step guide to take the full application live on the web:
+
+```text
+[React Frontend on Vercel] ──(REST /api)──> [Spring Boot on Render] ──(SSL)──> [Aiven Cloud Database]
+```
 
 ---
 
-### 2. Deploy Backend on Render
+### Step 1: Set Up Cloud Database on Aiven (Free Tier)
 
-#### Option A: Deploy with Native Java (Recommended)
-1. Log in to [Render](https://render.com) and select **"New Web Service"**.
-2. Connect your GitHub repository.
-3. Configure the service:
+1. Sign up or log in at **[Aiven.io](https://aiven.io)**.
+2. Click **"Create Service"**.
+3. Select **PostgreSQL** (or MySQL).
+4. Choose the **Free Plan** (available in supported regions like AWS us-east-1 or GCP).
+5. Name your service (e.g. `expense-tracker-db`) and click **"Create Service"**.
+6. Once the service is running, find the **Overview** tab:
+   - Look for **Service URI**: It looks like:
+     ```text
+     postgres://avnadmin:AVNS_xxxxxx@pg-xxxx-project.aivencloud.com:12345/defaultdb?sslmode=require
+     ```
+   - **Copy this Service URI**. Our Spring Boot backend has built-in smart parsing that automatically detects and converts this URI directly!
+
+---
+
+### Step 2: Deploy Backend on Render
+
+1. Push your repository to **GitHub**:
+   ```bash
+   git remote add origin https://github.com/<your-username>/<your-repo-name>.git
+   git branch -M main
+   git push -u origin main
+   ```
+2. Log in to **[Render.com](https://render.com)**.
+3. Click **"New +"** and select **"Web Service"**.
+4. Connect your GitHub repository.
+5. Fill in the service configuration:
+   - **Name**: `expense-tracker-backend`
    - **Root Directory**: `backend`
    - **Environment**: `Java`
    - **Build Command**: `./mvnw clean package -DskipTests`
    - **Start Command**: `java -Dserver.port=$PORT -jar target/expense-tracker-backend-1.0.0.jar`
    - **Health Check Path**: `/api/health`
-4. Set Environment Variables:
-   - `JAVA_VERSION`: `21`
-5. (Optional) If you attach a Render PostgreSQL database:
-   - `SPRING_DATASOURCE_URL`: `${DATABASE_URL}`
-   - `SPRING_DATASOURCE_DRIVER`: `org.postgresql.Driver`
-6. Click **Create Web Service**.
+6. Scroll down to **Environment Variables** and add:
+   - **`JAVA_VERSION`**: `21`
+   - **`DATABASE_URL`**: Paste your **Aiven Service URI** from Step 1:
+     ```text
+     postgres://avnadmin:<password>@<host>:<port>/defaultdb?sslmode=require
+     ```
+7. Click **"Create Web Service"**.
+8. Wait for the build to complete. Once live, Render will give you a public URL (e.g. `https://expense-tracker-backend-xxxx.onrender.com`).
+9. Test it by opening `https://<your-render-url>/api/health` in your browser. You should see `{"status":"UP"}`!
 
-#### Option B: Deploy with Dockerfile
-1. Select **"New Web Service"** and connect the repository.
-2. Set **Root Directory**: `backend`
-3. Set **Environment**: `Docker` (Render will automatically detect `backend/Dockerfile`).
-4. Click **Create Web Service**.
+---
+
+### Step 3: Deploy Frontend on Vercel
+
+1. Log in to **[Vercel.com](https://vercel.com)**.
+2. Click **"Add New..."** → **"Project"**.
+3. Select your GitHub repository.
+4. Configure the project:
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: Click "Edit" and choose `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+5. Under **Environment Variables**, add:
+   - **Name**: `VITE_API_BASE_URL`
+   - **Value**: `https://<your-render-backend-url>/api` *(using your Render backend URL from Step 2)*
+6. Click **"Deploy"**.
+7. Vercel will build and assign you a live domain (e.g. `https://expense-tracker-frontend-xxxx.vercel.app`).
+
+---
+
+### 🔄 Verifying the Full End-to-End Flow
+
+1. Open your Vercel URL in your browser.
+2. The navbar will show a green **"API Connected"** badge.
+3. Add a new expense (e.g. "Dinner with Team", $65.00, "Food").
+4. Check your Aiven console: The record is immediately stored in your cloud database table `expenses`!
+5. Refresh the page or close your browser: All expenses and analytics remain permanently saved.
 
 ---
 
