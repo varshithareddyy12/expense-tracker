@@ -61,3 +61,4 @@ public class ExpenseSummaryResponse {
         this.categoryBreakdowns = categoryBreakdowns;
     }
 }
+

@@ -77,3 +77,4 @@ public class ExpenseRequest {
         this.notes = notes != null ? notes.trim() : null;
     }
 }
+

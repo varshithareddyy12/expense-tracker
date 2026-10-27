@@ -87,3 +87,4 @@ export default function Navbar({ onOpenAddModal, isBackendOnline, checkingHealth
     </header>
   );
 }
+

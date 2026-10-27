@@ -131,3 +131,4 @@ class ExpenseServiceTest {
         assertFalse(summary.getCategoryBreakdowns().isEmpty());
     }
 }
+

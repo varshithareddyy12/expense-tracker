@@ -100,3 +100,4 @@ export default function ExpenseCardGrid({ expenses, currency, onEdit, onDelete, 
     </div>
   );
 }
+

@@ -64,3 +64,4 @@ export default function CategoryBreakdown({ categoryBreakdowns, totalAmount, cur
     </div>
   );
 }
+

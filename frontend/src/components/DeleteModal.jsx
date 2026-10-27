@@ -86,3 +86,4 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, expense, curre
     </div>
   );
 }
+

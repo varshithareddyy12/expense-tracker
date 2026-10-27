@@ -92,3 +92,4 @@ export default function StatCards({ summary, currency }) {
     </div>
   );
 }
+

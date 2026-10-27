@@ -10,3 +10,4 @@ class ExpenseTrackerApplicationTests {
     void contextLoads() {
     }
 }
+

@@ -50,3 +50,4 @@ export default function Toast({ toast, onClose }) {
     </div>
   );
 }
+

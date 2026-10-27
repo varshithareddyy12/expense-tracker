@@ -50,3 +50,4 @@ public class CategorySummary {
         this.percentage = percentage;
     }
 }
+

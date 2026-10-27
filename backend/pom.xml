@@ -42,10 +42,17 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- PostgreSQL Driver for production deployment on Render -->
+        <!-- PostgreSQL Driver for production deployment on Render / Aiven -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- MySQL Driver for Aiven MySQL if chosen -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -66,3 +73,4 @@
         </plugins>
     </build>
 </project>
+

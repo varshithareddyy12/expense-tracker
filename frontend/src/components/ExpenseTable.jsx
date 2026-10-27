@@ -131,3 +131,4 @@ export default function ExpenseTable({ expenses, currency, onEdit, onDelete, onO
     </div>
   );
 }
+

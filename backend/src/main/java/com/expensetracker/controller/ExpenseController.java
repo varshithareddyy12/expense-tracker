@@ -91,3 +91,4 @@ public class ExpenseController {
         return ResponseEntity.ok(ApiResponse.ok("Categories retrieved successfully", categories));
     }
 }
+

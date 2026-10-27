@@ -322,3 +322,4 @@ export default function ExpenseModal({ isOpen, onClose, onSubmit, expenseToEdit,
     </div>
   );
 }
+

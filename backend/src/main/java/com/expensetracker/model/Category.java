@@ -31,3 +31,4 @@ public enum Category {
         return OTHER;
     }
 }
+

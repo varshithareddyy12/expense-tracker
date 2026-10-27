@@ -4,9 +4,12 @@ services:
     env: java
     rootDir: backend
     plan: free
-    buildCommand: mvn clean package -DskipTests
+    buildCommand: ./mvnw clean package -DskipTests
     startCommand: java -Dserver.port=$PORT -jar target/expense-tracker-backend-1.0.0.jar
     healthCheckPath: /api/health
     envVars:
       - key: JAVA_VERSION
         value: 21
+      # Aiven PostgreSQL Service URI (paste in Render Environment settings)
+      - key: DATABASE_URL
+        sync: false

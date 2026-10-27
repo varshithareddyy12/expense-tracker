@@ -83,3 +83,4 @@ class ExpenseControllerTest {
                 .andExpect(jsonPath("$.fieldErrors.amount").exists());
     }
 }
+

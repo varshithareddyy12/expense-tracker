@@ -31,3 +31,4 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     @Query("SELECT DISTINCT e.category FROM Expense e ORDER BY e.category ASC")
     List<String> findDistinctCategories();
 }
+

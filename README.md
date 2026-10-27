@@ -254,3 +254,4 @@ All 13 test cases test:
 - Expense lookups, updates, and deletions
 - Correct summary calculation across categories
 - MockMvc controller endpoints and serialization
+
